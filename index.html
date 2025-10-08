@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=430, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#2a2a2f">
     
     <!-- App Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232a2a2f' width='100' height='100'/><text y='75' font-size='70' fill='white'>📊</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%232a2a2f' width='180' height='180' rx='40'/><text x='90' y='130' font-size='100' text-anchor='middle' fill='white'>📊</text></svg>">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="TeamProject" />
+    <link rel="manifest" href="/site.webmanifest" />
     
     <title>Team Project Manager</title>
     
@@ -113,16 +117,27 @@
             overflow-x: hidden; 
             transition: background 0.3s; 
             font-size: calc(14px * var(--font-scale));
-            /* iPhone 15 Pro Max optimization */
-            max-width: 430px;
-            margin: 0 auto;
+            width: 100%;
+            position: relative;
         }
         .app-container { 
-            max-width: 430px; 
+            width: 100%;
+            max-width: 100vw;
             min-height: 100vh; 
             display: flex; 
             flex-direction: column;
             margin: 0 auto;
+            overflow-x: hidden;
+        }
+        
+        /* Mobile-specific styles (iPhone 15 Pro Max and similar) */
+        @media (max-width: 768px) {
+            body {
+                max-width: 100vw;
+            }
+            .app-container {
+                max-width: 100vw;
+            }
         }
         
         .header { 
@@ -157,7 +172,7 @@
         .sync-badge.online { background: #d4edda; color: #155724; }
         .sync-badge.offline { background: #f8d7da; color: #721c24; }
         
-        .settings-panel { position: fixed; top: 0; right: -100%; width: 100%; max-width: 430px; height: 100%; background: var(--card-bg); box-shadow: -2px 0 10px rgba(0,0,0,0.2); transition: right 0.3s; z-index: 3000; overflow-y: auto; padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)); }
+        .settings-panel { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: var(--card-bg); box-shadow: -2px 0 10px rgba(0,0,0,0.2); transition: right 0.3s; z-index: 3000; overflow-y: auto; padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)); }
         .settings-panel.show { right: 0; }
         .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
         .settings-title { font-size: calc(20px * var(--font-scale)); font-weight: 600; color: var(--text-primary); }
@@ -269,8 +284,7 @@
         .fab-container { 
             position: fixed; 
             bottom: 20px; 
-            right: 50%;
-            transform: translateX(calc(215px - 50%)); /* Center within 430px container */
+            right: 20px;
             z-index: 999;
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -309,8 +323,73 @@
         .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--card-bg); color: var(--text-primary); padding: 14px 22px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; opacity: 0; transition: opacity 0.3s; font-size: calc(14px * var(--font-scale)); max-width: 90%; text-align: center; }
         .toast.show { opacity: 1; }
         
-        @media (min-width: 431px) {
-            body, .app-container { max-width: 430px; }
+        @media (min-width: 769px) {
+            /* Desktop/Laptop styles */
+            .header h1 { font-size: calc(20px * var(--font-scale)); }
+            .header { padding: 15px 20px; }
+            .stats-bar { grid-template-columns: repeat(3, 1fr); padding: 20px; gap: 15px; max-width: 1400px; margin: 0 auto; }
+            .stat-card { padding: 20px; }
+            .stat-card h3 { font-size: calc(28px * var(--font-scale)); }
+            .stat-card p { font-size: calc(13px * var(--font-scale)); }
+            .dashboard-view { 
+                display: grid; 
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
+                gap: 20px; 
+            }
+            .container { 
+                padding: 20px; 
+                max-width: 1400px; 
+                margin: 0 auto;
+                width: 100%;
+            }
+            .list-header, .list-row { grid-template-columns: 3fr 1fr 1fr 1fr 1fr; padding: 15px; }
+            .gantt-labels-panel { min-width: 200px; max-width: 200px; }
+            .project-card { max-width: 100%; }
+            .project-header { padding: 15px 20px; }
+            .project-header h3 { font-size: calc(17px * var(--font-scale)); }
+            .project-body { padding: 15px 20px; }
+            .task-item { padding: 15px; }
+            .kanban-column { min-width: 320px; padding: 15px; }
+            .kanban-task { padding: 15px; font-size: calc(14px * var(--font-scale)); }
+            .settings-panel { max-width: 450px; padding: 30px; }
+            .modal-content { max-width: 500px; }
+            .fab { width: 60px; height: 60px; font-size: 30px; }
+            .fab-container { bottom: 30px; right: 30px; }
+            
+            /* Better spacing for desktop */
+            .view-toggle { padding: 4px; gap: 4px; }
+            .view-btn { padding: 8px 12px; font-size: calc(12px * var(--font-scale)); }
+            .header-btn { width: 38px; height: 38px; font-size: calc(16px * var(--font-scale)); }
+        }
+        
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .container { 
+                width: 100vw;
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+            .dashboard-view {
+                width: 100%;
+            }
+            .project-card {
+                width: 100%;
+            }
+            .kanban-view {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .list-view {
+                width: 100%;
+                overflow-x: hidden;
+            }
+            /* Ensure no horizontal scroll on mobile */
+            body, html {
+                overflow-x: hidden;
+                width: 100%;
+                position: relative;
+            }
         }
     </style>
 </head>
