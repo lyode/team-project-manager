@@ -1,0 +1,37 @@
+{
+  "name": "team-project-manager",
+  "version": "2.0.0",
+  "description": "Modern team collaboration app with real-time cloud synchronization and conflict resolution",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "deploy": "git push origin main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lyode/team-project-manager.git"
+  },
+  "keywords": [
+    "project-management",
+    "task-tracker",
+    "team-collaboration",
+    "kanban",
+    "cloud-sync",
+    "offline-first",
+    "progressive-web-app",
+    "pwa",
+    "productivity",
+    "task-management"
+  ],
+  "author": "lyode ng <lyodengck@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lyode/team-project-manager/issues"
+  },
+  "homepage": "https://github.com/lyode/team-project-manager#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
