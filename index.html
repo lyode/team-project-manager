@@ -537,7 +537,7 @@
             </div>
         </div>
         
-        <div class="sync-status-bar" id="syncStatusBar">
+        <div class="sync-status-bar" id="syncStatusBar" style="display: none;">
             <div class="sync-status-left">
                 <span class="sync-icon" id="syncIcon">✅</span>
                 <span id="syncText">Synced</span>
@@ -985,6 +985,9 @@
             applyThemeSettings();
             updateUserProfile();
             
+            // Hide sync status bar on initial load
+            document.getElementById('syncStatusBar').style.display = 'none';
+            
             if (data.autoSyncEnabled) {
                 document.getElementById('autoSyncToggle').checked = true;
                 cloudSync.startAutoSync(data.autoSyncInterval);
@@ -1025,8 +1028,15 @@
             const icon = document.getElementById('syncIcon');
             const textEl = document.getElementById('syncText');
             
+            // Show the bar
+            statusBar.style.display = 'flex';
             statusBar.classList.add('show');
             textEl.textContent = text;
+            
+            // Clear any existing timers
+            if (window.syncStatusTimer) {
+                clearTimeout(window.syncStatusTimer);
+            }
             
             switch(status) {
                 case 'syncing':
@@ -1037,19 +1047,34 @@
                     icon.textContent = '✅';
                     icon.classList.remove('syncing');
                     // Auto-hide after 2 seconds
-                    setTimeout(() => statusBar.classList.remove('show'), 2000);
+                    window.syncStatusTimer = setTimeout(() => {
+                        statusBar.classList.remove('show');
+                        setTimeout(() => {
+                            statusBar.style.display = 'none';
+                        }, 300); // Wait for slide animation to complete
+                    }, 2000);
                     break;
                 case 'error':
                     icon.textContent = '⚠️';
                     icon.classList.remove('syncing');
                     // Auto-hide error after 3 seconds
-                    setTimeout(() => statusBar.classList.remove('show'), 3000);
+                    window.syncStatusTimer = setTimeout(() => {
+                        statusBar.classList.remove('show');
+                        setTimeout(() => {
+                            statusBar.style.display = 'none';
+                        }, 300);
+                    }, 3000);
                     break;
                 case 'offline':
                     icon.textContent = '📵';
                     icon.classList.remove('syncing');
                     // Auto-hide offline status after 3 seconds
-                    setTimeout(() => statusBar.classList.remove('show'), 3000);
+                    window.syncStatusTimer = setTimeout(() => {
+                        statusBar.classList.remove('show');
+                        setTimeout(() => {
+                            statusBar.style.display = 'none';
+                        }, 300);
+                    }, 3000);
                     break;
             }
         }
